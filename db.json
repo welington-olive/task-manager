@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "title": "Study React Native",
+      "status": "pending",
+      "responsible": "John",
+      "id": "1"
+    }
+  ]
+}
