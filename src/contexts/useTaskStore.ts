@@ -49,12 +49,7 @@ export const useTaskStore = create<Store>((set, get) => ({
     try {
       set({ isLoading: true, error: null })
       
-      // Verifica se precisa migrar dados
-      const needsMigration = await migrateData.needsMigration()
-      if (needsMigration) {
-        await migrateData.migrateFromDbJson()
-      }
-      
+      // Iniciar com lista vazia - sem migração automática
       const tasks = await taskService.getAll()
       
       // Sempre carregar tarefas offline, independente do status de conexão

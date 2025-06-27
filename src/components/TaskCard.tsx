@@ -25,14 +25,6 @@ interface TaskCardProps {
 export function TaskCard({ task, onEdit }: TaskCardProps) {
   const { deleteTask } = useTaskStore()
 
-  // Debug temporário para verificar se a tarefa está mantendo isSynced
-  console.log('TaskCard render:', {
-    id: task.id,
-    title: task.title,
-    isSynced: task.isSynced,
-    createdAt: task.createdAt
-  })
-
   const handleDelete = () => {
     Alert.alert(
       STRINGS.ALERT.DELETE_TASK_TITLE,
