@@ -1,7 +1,7 @@
 export const appConfig = {
   // API Configuration
   api: {
-    baseURL: 'http://192.168.68.100:3001',
+    baseURL: 'https://my-json-server.typicode.com/welington-olive/task-manager',
     timeout: 10000,
     retryAttempts: 3,
   },

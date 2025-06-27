@@ -32,20 +32,11 @@ export default function TaskForm() {
   const titleInputRef = useRef<TextInput>(null)
   const responsibleInputRef = useRef<TextInput>(null)
 
-  const handleInputFocus = (inputRef: React.RefObject<TextInput>) => {
-    // Aguarda um pouco para o teclado aparecer antes de fazer scroll
+  const handleInputFocus = () => {
+    // Simple scroll to bottom when input is focused
     setTimeout(() => {
-      inputRef.current?.measureLayout(
-        scrollViewRef.current?.getInnerViewNode() || {},
-        (x, y) => {
-          scrollViewRef.current?.scrollTo({
-            y: y - 100, // Offset para dar espaço acima do input
-            animated: true
-          })
-        },
-        () => {}
-      )
-    }, 100)
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, 300)
   }
 
   return (
@@ -69,7 +60,7 @@ export default function TaskForm() {
               onChangeText={(text) => form.setValue('title', text)}
               returnKeyType="next"
               onSubmitEditing={() => responsibleInputRef.current?.focus()}
-              onFocus={() => handleInputFocus(titleInputRef)}
+              onFocus={handleInputFocus}
               error={errors.title?.message}
             />
 
@@ -89,7 +80,7 @@ export default function TaskForm() {
               onChangeText={(text) => form.setValue('responsible', text)}
               returnKeyType="done"
               onSubmitEditing={onSubmit}
-              onFocus={() => handleInputFocus(responsibleInputRef)}
+              onFocus={handleInputFocus}
               error={errors.responsible?.message}
             />
 
