@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { CustomModal } from './CustomModal'
-import { RadioGroup } from './'
+import { RadioGroup } from './RadioGroup'
 import { InputField } from './InputField'
 import { STRINGS } from '../constants/strings'
 
