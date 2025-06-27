@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { RefreshControl, ActivityIndicator, Text, TouchableOpacity } from 'react-native'
+import { RefreshControl, ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useTaskList } from '../hooks/useTaskList'
 import { useDebounce } from '../hooks/useDebounce'
@@ -28,7 +28,6 @@ import {
   EmptySubtext,
   LoadingContainer,
   LoadingText,
-  ScrollContainer,
   AddButton,
   AddButtonText,
 } from '../components/styles/HomeStyles'
@@ -86,9 +85,89 @@ export default function Home() {
     return activeFilters.length > 0 ? activeFilters.join(', ') : STRINGS.FILTERS.ALL_FILTERS
   }
 
+  // Header component for the FlatList
+  const ListHeaderComponent = () => (
+    <View>
+      {/* Header */}
+      <Header>
+        <HeaderTitle>{STRINGS.HOME.TITLE}</HeaderTitle>
+        <HeaderSubtitle>{STRINGS.HOME.SUBTITLE}</HeaderSubtitle>
+      </Header>
+
+      {/* Hero Section */}
+      <HeroSection>
+        <HeroTitle>{STRINGS.HOME.HERO_TITLE}</HeroTitle>
+        <HeroDescription>
+          {STRINGS.HOME.HERO_DESCRIPTION}
+        </HeroDescription>
+      </HeroSection>
+
+      {/* Stats */}
+      <StatsContainer>
+        <StatItem>
+          <StatNumber>{tasks.length}</StatNumber>
+          <StatLabel>{STRINGS.HOME.TOTAL_TASKS}</StatLabel>
+        </StatItem>
+        <StatItem>
+          <StatNumber>{pendingTasks}</StatNumber>
+          <StatLabel>{STRINGS.HOME.PENDING_TASKS}</StatLabel>
+        </StatItem>
+        <StatItem>
+          <StatNumber>{completedTasks}</StatNumber>
+          <StatLabel>{STRINGS.HOME.COMPLETED_TASKS}</StatLabel>
+        </StatItem>
+      </StatsContainer>
+
+      {/* Filters */}
+      <SectionTitle>{STRINGS.HOME.FILTERS_SECTION}</SectionTitle>
+      <TouchableOpacity 
+        style={{
+          backgroundColor: theme.colors.primary,
+          padding: theme.spacing.sm,
+          borderRadius: theme.borderRadius.md,
+          marginHorizontal: theme.spacing.lg,
+          alignItems: 'center',
+          ...commonStyles.shadow,
+        }}
+        onPress={() => setFilterModalVisible(true)}
+      >
+        <Text style={{ color: theme.colors.white, fontSize: theme.fontSize.medium, fontWeight: 'bold' }}>
+          🔍 {getFilterSummary()}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Tasks Section */}
+      <SectionTitle>{STRINGS.HOME.TASKS_SECTION}</SectionTitle>
+    </View>
+  )
+
+  // Empty component for when no tasks are found
+  const ListEmptyComponent = () => (
+    <EmptyContainer>
+      <EmptyIcon>
+        <Text style={{ fontSize: theme.fontSize.xxlarge, color: theme.colors.textSecondary }}>📋</Text>
+      </EmptyIcon>
+      <EmptyText>{STRINGS.HOME.NO_TASKS_FOUND}</EmptyText>
+      <EmptySubtext>
+        {tasks.length === 0 
+          ? STRINGS.HOME.EMPTY_STATE_FIRST_TASK
+          : STRINGS.HOME.EMPTY_STATE_ADJUST_FILTERS
+        }
+      </EmptySubtext>
+    </EmptyContainer>
+  )
+
   return (
     <HomeContainer>
-      <ScrollContainer
+      <StyledFlatList
+        data={filteredTasks}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <TaskCard task={item} onEdit={handleEditTask} />}
+        ListHeaderComponent={ListHeaderComponent}
+        ListEmptyComponent={ListEmptyComponent}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={appConfig.pagination.loadMoreThreshold}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl 
             refreshing={refreshing} 
@@ -97,83 +176,11 @@ export default function Home() {
             tintColor={theme.colors.primary}
           />
         }
-      >
-        {/* Header */}
-        <Header>
-          <HeaderTitle>{STRINGS.HOME.TITLE}</HeaderTitle>
-          <HeaderSubtitle>{STRINGS.HOME.SUBTITLE}</HeaderSubtitle>
-        </Header>
-
-        {/* Hero Section */}
-        <HeroSection>
-          <HeroTitle>{STRINGS.HOME.HERO_TITLE}</HeroTitle>
-          <HeroDescription>
-            {STRINGS.HOME.HERO_DESCRIPTION}
-          </HeroDescription>
-        </HeroSection>
-
-        {/* Stats */}
-        <StatsContainer>
-          <StatItem>
-            <StatNumber>{tasks.length}</StatNumber>
-            <StatLabel>{STRINGS.HOME.TOTAL_TASKS}</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>{pendingTasks}</StatNumber>
-            <StatLabel>{STRINGS.HOME.PENDING_TASKS}</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>{completedTasks}</StatNumber>
-            <StatLabel>{STRINGS.HOME.COMPLETED_TASKS}</StatLabel>
-          </StatItem>
-        </StatsContainer>
-
-        {/* Filters */}
-        <SectionTitle>{STRINGS.HOME.FILTERS_SECTION}</SectionTitle>
-        <TouchableOpacity 
-          style={{
-            backgroundColor: theme.colors.primary,
-            padding: theme.spacing.sm,
-            borderRadius: theme.borderRadius.md,
-            marginHorizontal: theme.spacing.lg,
-            alignItems: 'center',
-            ...commonStyles.shadow,
-          }}
-          onPress={() => setFilterModalVisible(true)}
-        >
-          <Text style={{ color: theme.colors.white, fontSize: theme.fontSize.medium, fontWeight: 'bold' }}>
-            🔍 {getFilterSummary()}
-          </Text>
-        </TouchableOpacity>
-
-        {/* Tasks Section */}
-        <SectionTitle>{STRINGS.HOME.TASKS_SECTION}</SectionTitle>
-
-        {filteredTasks.length === 0 ? (
-          <EmptyContainer>
-            <EmptyIcon>
-              <Text style={{ fontSize: theme.fontSize.xxlarge, color: theme.colors.textSecondary }}>📋</Text>
-            </EmptyIcon>
-            <EmptyText>{STRINGS.HOME.NO_TASKS_FOUND}</EmptyText>
-            <EmptySubtext>
-              {tasks.length === 0 
-                ? STRINGS.HOME.EMPTY_STATE_FIRST_TASK
-                : STRINGS.HOME.EMPTY_STATE_ADJUST_FILTERS
-              }
-            </EmptySubtext>
-          </EmptyContainer>
-        ) : (
-          <StyledFlatList
-            data={filteredTasks}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => <TaskCard task={item} onEdit={handleEditTask} />}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={appConfig.pagination.loadMoreThreshold}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: theme.spacing.xxl * 2 }}
-          />
-        )}
-      </ScrollContainer>
+        contentContainerStyle={{ 
+          flexGrow: 1,
+          paddingBottom: theme.spacing.xxl * 2 
+        }}
+      />
 
       {/* Add Button */}
       <AddButton onPress={handleAddTask}>
