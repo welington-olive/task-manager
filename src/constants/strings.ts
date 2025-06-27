@@ -65,6 +65,21 @@ export const STRINGS = {
     EMPTY_STATE_ADJUST_FILTERS: 'Tente ajustar seus filtros para ver mais tarefas',
   },
 
+  // Network status
+  NETWORK: {
+    ONLINE: 'Online',
+    OFFLINE: 'Offline',
+    SYNC_BUTTON: 'Sincronizar',
+    SYNCING: 'Sincronizando...',
+    PENDING_TASKS: 'Tarefas pendentes',
+    NO_CONNECTION: 'Sem conexão',
+    NO_CONNECTION_MESSAGE: 'Você precisa estar conectado à internet para sincronizar as tarefas.',
+    SYNC_CONFIRMATION: 'Sincronizar',
+    SYNC_CONFIRMATION_MESSAGE: 'Deseja sincronizar as tarefas offline?',
+    SYNC_CANCEL: 'Cancelar',
+    SYNC_CONFIRM: 'Sincronizar',
+  },
+
   // Messages
   MESSAGES: {
     EMPTY_TASKS: 'Nenhuma tarefa encontrada. Crie sua primeira tarefa!',

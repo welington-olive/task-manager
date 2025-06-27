@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, View } from 'react-native'
 import { Task } from '../types/Task'
 import { STRINGS } from '../constants/strings'
 import { taskUtils } from '../utils/taskUtils'
@@ -14,6 +14,7 @@ import {
   ActionContainer,
   ActionButton,
   ActionButtonText,
+  SyncIndicator,
 } from './styles/TaskCardStyles'
 
 interface TaskCardProps {
@@ -23,6 +24,14 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onEdit }: TaskCardProps) {
   const { deleteTask } = useTaskStore()
+
+  // Debug temporário para verificar se a tarefa está mantendo isSynced
+  console.log('TaskCard render:', {
+    id: task.id,
+    title: task.title,
+    isSynced: task.isSynced,
+    createdAt: task.createdAt
+  })
 
   const handleDelete = () => {
     Alert.alert(
@@ -45,7 +54,12 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
 
   return (
     <CardContainer status={task.status}>
-      <TitleText>{task.title}</TitleText>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <TitleText style={{ flex: 1 }}>{task.title}</TitleText>
+        {task.isSynced === false && (
+          <SyncIndicator style={{ backgroundColor: theme.colors.error }} />
+        )}
+      </View>
       <StatusBadge status={task.status}>
         <StatusText>{taskUtils.getStatusLabel(task.status)}</StatusText>
       </StatusBadge>

@@ -11,7 +11,14 @@ export const taskService = {
   // Get all tasks
   getAll: async (): Promise<Task[]> => {
     try {
-      return await fileStorage.getAllTasks()
+      const tasks = await fileStorage.getAllTasks()
+      // Marcar todas as tarefas como sincronizadas (já estão no storage local)
+      return tasks.map(task => ({
+        ...task,
+        isSynced: true,
+        createdAt: task.createdAt || new Date().toISOString(),
+        updatedAt: task.updatedAt || new Date().toISOString()
+      }))
     } catch (error) {
       console.error('Error getting all tasks:', error)
       return []
@@ -25,7 +32,12 @@ export const taskService = {
       if (!task) {
         throw new Error(`Task with id ${id} not found`)
       }
-      return task
+      return {
+        ...task,
+        isSynced: true,
+        createdAt: task.createdAt || new Date().toISOString(),
+        updatedAt: task.updatedAt || new Date().toISOString()
+      }
     } catch (error) {
       console.error(`Error getting task ${id}:`, error)
       throw error
@@ -35,7 +47,13 @@ export const taskService = {
   // Create new task
   create: async (task: Omit<Task, 'id'>): Promise<Task> => {
     try {
-      return await fileStorage.createTask(task)
+      const newTask = await fileStorage.createTask(task)
+      return {
+        ...newTask,
+        isSynced: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
     } catch (error) {
       console.error('Error creating task:', error)
       throw error
@@ -45,7 +63,12 @@ export const taskService = {
   // Update task
   update: async (id: string | number, task: Partial<Task>): Promise<Task> => {
     try {
-      return await fileStorage.updateTask(id, task)
+      const updatedTask = await fileStorage.updateTask(id, task)
+      return {
+        ...updatedTask,
+        isSynced: true,
+        updatedAt: new Date().toISOString()
+      }
     } catch (error) {
       console.error(`Error updating task ${id}:`, error)
       throw error
@@ -65,7 +88,12 @@ export const taskService = {
   // Patch task (partial update)
   patch: async (id: string | number, updates: Partial<Task>): Promise<Task> => {
     try {
-      return await fileStorage.patchTask(id, updates)
+      const patchedTask = await fileStorage.patchTask(id, updates)
+      return {
+        ...patchedTask,
+        isSynced: true,
+        updatedAt: new Date().toISOString()
+      }
     } catch (error) {
       console.error(`Error patching task ${id}:`, error)
       throw error

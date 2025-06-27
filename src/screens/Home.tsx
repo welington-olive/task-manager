@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { RefreshControl, ActivityIndicator, Text, TouchableOpacity, View, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useTaskList } from '../hooks/useTaskList'
 import { useDebounce } from '../hooks/useDebounce'
-import { TaskCard, FilterModal, FilterOptions } from '../components'
+import { useNetworkStatus } from '../hooks/useNetworkStatus'
+import { TaskCard, FilterModal, FilterOptions, NetworkStatus } from '../components'
 import { STRINGS } from '../constants/strings'
 import { appConfig } from '../config/appConfig'
 import { Task } from '../types/Task'
 import { theme, commonStyles } from '../styles/global'
+import { useTaskStore } from '../contexts/useTaskStore'
 import {
   HomeContainer,
   Header,
@@ -35,6 +37,8 @@ import {
 export default function Home() {
   const navigation = useNavigation()
   const { tasks, loading, refreshing, handleRefresh, handleLoadMore, getFilteredTasks } = useTaskList()
+  const { isOnline } = useNetworkStatus()
+  const { setOnlineStatus, checkOfflineData } = useTaskStore()
   
   const [filterModalVisible, setFilterModalVisible] = useState(false)
   const [filters, setFilters] = useState<FilterOptions>({
@@ -44,6 +48,17 @@ export default function Home() {
   
   // Debounce the responsible filter with 300ms delay
   const debouncedResponsibleFilter = useDebounce(filters.responsible, 300)
+
+  // Monitor network status changes
+  useEffect(() => {
+    const onlineStatus = isOnline ?? false
+    setOnlineStatus(onlineStatus)
+  }, [isOnline, setOnlineStatus])
+
+  // Check for offline data on mount
+  useEffect(() => {
+    checkOfflineData()
+  }, [checkOfflineData])
 
   if (loading && tasks.length === 0) {
     return (
@@ -88,6 +103,9 @@ export default function Home() {
   // Header component for the FlatList
   const ListHeaderComponent = () => (
     <View>
+      {/* Network Status */}
+      <NetworkStatus />
+
       {/* Header */}
       <Header>
         <HeaderTitle>{STRINGS.HOME.TITLE}</HeaderTitle>

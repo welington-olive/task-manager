@@ -55,6 +55,13 @@ export const StatusText = styled.Text`
   letter-spacing: 0.5px;
 `
 
+export const SyncIndicator = styled.View`
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  margin-left: ${theme.spacing.sm}px;
+`
+
 export const ActionContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;

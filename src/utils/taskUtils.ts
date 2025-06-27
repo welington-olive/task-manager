@@ -41,10 +41,26 @@ export const taskUtils = {
   },
 
   /**
-   * Sort tasks by creation date (newest first)
+   * Sort tasks by creation date (oldest first)
    */
   sortTasksByDate: (tasks: Task[]): Task[] => {
-    return [...tasks].sort((a, b) => b.id - a.id)
+    return [...tasks].sort((a, b) => {
+      // Se ambas as tarefas têm createdAt, ordenar por data
+      if (a.createdAt && b.createdAt) {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
+      // Se apenas uma tem createdAt, a que tem fica depois
+      if (a.createdAt && !b.createdAt) return 1
+      if (!a.createdAt && b.createdAt) return -1
+      // Se nenhuma tem createdAt, ordenar por ID (mais antigo primeiro)
+      return a.id - b.id
+    }).map(task => ({
+      ...task,
+      // Garantir que as propriedades de sincronização sejam preservadas
+      isSynced: task.isSynced ?? true,
+      createdAt: task.createdAt || new Date().toISOString(),
+      updatedAt: task.updatedAt || new Date().toISOString()
+    }))
   },
 
   /**

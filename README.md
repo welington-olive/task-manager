@@ -1,263 +1,155 @@
 # Task Manager
 
-A React Native application for task management with complete CRUD functionality and filters.
+Um aplicativo moderno de gerenciamento de tarefas desenvolvido em React Native com funcionalidades avançadas de sincronização offline.
 
-## Implemented Features
+## 🚀 Funcionalidades
 
-### ✅ Task Creation
-- Complete form for creating new tasks
-- Required field validation
-- Status selection (Pending/Completed)
-- Responsible person assignment
+### ✨ Principais
+- **Criação e gerenciamento de tarefas** com título, status e responsável
+- **Filtros avançados** por status e responsável
+- **Interface moderna** com design responsivo
+- **Persistência local** de dados
+- **Migração automática** de dados
 
-### ✅ Task Editing
-- Edit button on each task card
-- Navigation to form with pre-filled data
-- Real-time updates in the list
+### 📱 Funcionalidades Offline
+- **Detecção automática de conexão** - O app detecta quando você está online ou offline
+- **Criação offline de tarefas** - Crie tarefas mesmo sem internet
+- **Indicadores visuais** - Bolinha vermelha para tarefas não sincronizadas
+- **Sincronização automática** - Tarefas são sincronizadas quando a internet volta
+- **Botão de sincronização manual** - Sincronize tarefas offline quando estiver online
+- **Persistência de dados offline** - Suas tarefas offline são salvas localmente
 
-### ✅ Task Deletion
-- Delete button on each task card
-- Confirmation before deletion
-- Immediate removal from the list
+## 🎯 Como Funciona a Sincronização Offline
 
-### ✅ Status Filters
-- "All" filter to show all tasks
-- "Pending" filter for uncompleted tasks
-- "Completed" filter for finished tasks
+### Quando você está offline:
+1. **Crie tarefas normalmente** - Elas são salvas localmente
+2. **Veja o indicador vermelho** - Bolinha vermelha mostra tarefas não sincronizadas
+3. **Status "Offline"** - O app mostra claramente que você está offline
+4. **"Tarefas pendentes"** - Indica que há tarefas aguardando sincronização
 
-### ✅ Responsible Person Filters
-- Real-time search field by responsible person's name
-- 300ms debounce for better performance
-- Automatic filtering as you type
+### Quando a internet volta:
+1. **Detecção automática** - O app detecta que você voltou online
+2. **Botão "Sincronizar"** - Aparece para sincronizar tarefas offline
+3. **Sincronização automática** - Tarefas são enviadas para o servidor
+4. **Indicador verde** - Tarefas sincronizadas ficam com bolinha verde
 
-## Project Structure
+## 🛠️ Tecnologias Utilizadas
 
-```
-src/
-├── components/
-│   ├── TaskCard.tsx          # Task card with actions
-│   └── styles/
-│       ├── TaskCardStyles.ts # Card styles
-│       ├── TaskFormStyles.ts # Form styles
-│       └── HomeStyles.ts     # Main screen styles
-├── screens/
-│   ├── Home.tsx              # Main screen with list and filters
-│   └── TaskForm.tsx          # Creation/editing form
-├── contexts/
-│   └── useTaskStore.ts       # Global state management
-├── hooks/
-│   ├── useTaskList.ts        # Hook for task list
-│   ├── useTaskForm.ts        # Hook for form
-│   └── useDebounce.ts        # Hook for debounce
-├── utils/
-│   └── taskUtils.ts          # Task utilities
-├── constants/
-│   └── strings.ts            # Text constants
-└── types/
-    └── Task.ts               # TypeScript types
-```
+- **React Native** - Framework principal
+- **TypeScript** - Tipagem estática
+- **Zustand** - Gerenciamento de estado
+- **Styled Components** - Estilização
+- **React Navigation** - Navegação
+- **AsyncStorage** - Armazenamento local
+- **NetInfo** - Detecção de status de rede
 
-## How to Use
+## 📦 Instalação
 
-### Create a New Task
-1. On the main screen, tap the "+" button (bottom right corner)
-2. Fill in the task title
-3. Select the status (Pending or Completed)
-4. Type the responsible person's name
-5. Tap "Save"
-
-### Edit a Task
-1. In the task list, tap the "Edit" button on the desired card
-2. Modify the necessary fields
-3. Tap "Update" to save the changes
-
-### Delete a Task
-1. In the task list, tap the "Delete" button on the desired card
-2. Confirm the deletion in the confirmation dialog
-
-### Filter Tasks
-1. **By Responsible Person**: Type in the search field to filter by responsible person's name
-2. **By Status**: Use the "All", "Pending", or "Completed" buttons
-3. **Clear Filters**: Tap the active filter again to deactivate it
-
-## Technologies Used
-
-- **React Native** - Main framework
-- **Zustand** - State management
-- **React Hook Form** - Forms
-- **Zod** - Data validation
-- **Styled Components** - Styling
-- **React Navigation** - Navigation
-
-## Installation and Execution
-
+1. Clone o repositório:
 ```bash
-# Install dependencies
-npm install
-
-# Run on Android
-npm run android
-
-# Run on iOS
-npm run ios
+git clone <url-do-repositorio>
+cd task-manager
 ```
 
-## API Endpoints
-
-The application expects a REST API with the following endpoints:
-
-- `GET /tasks` - List all tasks
-- `POST /tasks` - Create new task
-- `PUT /tasks/:id` - Update existing task
-- `DELETE /tasks/:id` - Delete task
-
-## Data Structure
-
-```typescript
-interface Task {
-  id: number
-  title: string
-  status: 'pending' | 'completed'
-  responsible: string
-}
-```
-
-### 📁 Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── styles/         # Styled-components for each component
-│   │   ├── HomeStyles.ts      # Main screen styles
-│   │   └── TaskCardStyles.ts  # Task card styles
-│   └── ...
-├── screens/            # Screen components (views only)
-├── hooks/              # Custom hooks for business logic
-├── contexts/           # React Context providers
-├── services/           # API and external services
-├── storage/            # Local storage utilities
-├── utils/              # Utility functions
-├── constants/          # App constants and strings
-├── config/             # App configuration
-├── schemas/            # Data validation schemas
-├── types/              # TypeScript type definitions
-├── styles/             # Global styles and theme
-└── navigation/         # Navigation configuration
-```
-
-## 🔧 Technologies
-
-- React Native (Hooks)
-- TypeScript
-- Zustand (State Management)
-- Styled Components
-- React Navigation
-- React Hook Form + Zod
-- AsyncStorage
-- Axios
-- JSON Server (Fake API)
-
-## 🚀 Instructions
-
-### Installation
-
+2. Instale as dependências:
 ```bash
 yarn install
 ```
 
-### Start the app
-
+3. Execute o projeto:
 ```bash
 yarn start
 ```
 
-### Start fake API
+## 🏗️ Estrutura do Projeto
 
-```bash
-yarn server
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── TaskCard.tsx    # Card de tarefa com indicador de sincronização
+│   ├── NetworkStatus.tsx # Status de conexão e botão de sincronização
+│   └── ...
+├── contexts/           # Contextos e stores
+│   └── useTaskStore.ts # Store principal com lógica offline
+├── hooks/              # Hooks customizados
+│   ├── useNetworkStatus.ts # Hook para detectar status de rede
+│   └── ...
+├── services/           # Serviços
+│   ├── api.ts         # API de tarefas
+│   ├── syncService.ts # Serviço de sincronização offline
+│   └── ...
+├── types/              # Definições de tipos
+│   └── Task.ts        # Tipo Task com campos de sincronização
+└── ...
 ```
 
-Make sure `json-server` is installed globally:
+## 🔧 Configuração
 
-```bash
-npm install -g json-server
-```
+### Dependências Adicionadas para Funcionalidade Offline:
+- `@react-native-community/netinfo` - Detecção de status de rede
+- `@react-native-async-storage/async-storage` - Armazenamento local
 
-Create the `db.json` file with the following content:
-
-```json
-{
-  "tasks": [
-    {
-      "id": 1,
-      "title": "Study React Native",
-      "status": "pending",
-      "responsible": "John"
-    }
-  ]
-}
-```
-
-## 🎯 Key Features
-
-### ✅ Clean Architecture
-- **Separation of Concerns**: Business logic separated from UI components
-- **Custom Hooks**: Reusable logic in dedicated hooks
-- **Styled Components**: Organized styling with theme system
-- **Type Safety**: Full TypeScript implementation
-
-### ✅ Code Organization
-- **Constants**: Centralized strings and configuration
-- **Utils**: Reusable utility functions
-- **Config**: App-wide configuration
-- **Styles**: Modular styled-components
-
-### ✅ Features
-- Listing with infinite scroll
-- Create, edit, delete tasks
-- Filter by status and responsible
-- Form validation with error handling
-- Reusable modal components
-- Local storage with error handling
-- Navigation between screens
-- Offline handling
-- Loading and error states
-
-## 📋 Development Guidelines
-
-### 🎨 Styling
-- Use styled-components for all styling
-- Follow the theme system in `src/styles/global.ts`
-- Keep styles separate from components in `styles/` folders
-
-### 🔧 Business Logic
-- Use custom hooks for complex logic
-- Keep components focused on rendering only
-- Use utility functions for reusable operations
-
-### 📝 Code Quality
-- Use TypeScript interfaces for all props
-- Follow consistent naming conventions
-- Use constants for all strings and configuration
-- Implement proper error handling
-
-### 🏗️ Architecture Principles
-- **Single Responsibility**: Each file has one clear purpose
-- **Dependency Inversion**: Depend on abstractions, not concretions
-- **Open/Closed**: Open for extension, closed for modification
-- **DRY**: Don't Repeat Yourself - use utilities and hooks
-
-## 🔄 State Management
-
-The app uses Zustand for state management with a clean store structure:
-
+### Campos Adicionados ao Tipo Task:
 ```typescript
-// Example store structure
-type Store = {
-  tasks: Task[]
-  fetchTasks: () => Promise<void>
-  addTask: (task: Omit<Task, 'id'>) => Promise<void>
-  updateTask: (task: Task) => Promise<void>
-  deleteTask: (id: number) => Promise<void>
+export type Task = {
+  id: number
+  title: string
+  status: string
+  responsible: string
+  completed?: boolean
+  isSynced?: boolean      // Novo: indica se a tarefa foi sincronizada
+  createdAt?: string      // Novo: data de criação
+  updatedAt?: string      // Novo: data de atualização
 }
 ```
+
+## 🎨 Interface do Usuário
+
+### Indicadores Visuais:
+- **🟢 Online** - Conectado à internet
+- **🔴 Offline** - Sem conexão
+- **🔴 Bolinha vermelha** - Tarefa não sincronizada
+- **🟢 Bolinha verde** - Tarefa sincronizada (ou não mostrada)
+
+### Componentes Principais:
+- **NetworkStatus** - Mostra status de conexão e botão de sincronização
+- **TaskCard** - Card de tarefa com indicador de sincronização
+- **Home** - Tela principal com integração de status de rede
+
+## 🔄 Fluxo de Sincronização
+
+1. **Criação offline** → Tarefa salva localmente com `isSynced: false`
+2. **Detecção de rede** → App detecta quando volta online
+3. **Verificação de dados** → App verifica se há tarefas offline
+4. **Sincronização** → Tarefas são enviadas para o servidor
+5. **Limpeza** → Dados offline são removidos após sincronização
+6. **Atualização** → Lista de tarefas é recarregada
+
+## 🚨 Tratamento de Erros
+
+- **Sem conexão** - Tarefas são salvas localmente
+- **Erro de sincronização** - Dados offline são preservados
+- **Conflitos** - Última modificação prevalece
+- **Falha de rede** - App continua funcionando offline
+
+## 📱 Compatibilidade
+
+- **iOS** - Suporte completo
+- **Android** - Suporte completo
+- **Versão mínima** - React Native 0.70+
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 📞 Suporte
+
+Se você encontrar algum problema ou tiver dúvidas, abra uma issue no repositório.

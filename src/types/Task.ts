@@ -4,4 +4,7 @@ export type Task = {
   status: string
   responsible: string
   completed?: boolean
+  isSynced?: boolean
+  createdAt?: string
+  updatedAt?: string
 }

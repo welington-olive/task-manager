@@ -7,6 +7,7 @@ export function useTaskList() {
   const { tasks, fetchTasks } = useTaskStore()
   const [refreshing, setRefreshing] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {
     loadTasks()
@@ -16,6 +17,7 @@ export function useTaskList() {
     try {
       setLoading(true)
       await fetchTasks()
+      setHasLoaded(true)
     } catch (error) {
       console.error('Error loading tasks:', error)
     } finally {
@@ -35,9 +37,11 @@ export function useTaskList() {
   }
 
   const handleLoadMore = async () => {
-    if (!loading) {
-      await loadTasks()
+    if (loading || !hasLoaded) {
+      return
     }
+    
+    console.log('Load more triggered but no pagination implemented')
   }
 
   const getFilteredTasks = (filters: { status?: string; responsible?: string }): Task[] => {
